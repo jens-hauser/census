@@ -46,7 +46,6 @@ def model_predict(data: InputClass):
     df = pd.DataFrame([data_dict], columns=data_dict.keys())
     df.columns = [col.replace("_", "-") for col in df.columns]
 
-    df.to_csv("data/pred.csv")
     model = joblib.load('model/random_forest_clf.joblib')
     encoder = joblib.load('model/encoder.joblib')
     lb = joblib.load('model/label_binarizer.joblib')
