@@ -1,10 +1,12 @@
 import os
+import sys
 import pandas as pd
 import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
-from starter.ml.model import inference
 from starter.ml.data import process_data
+
+sys.path.insert(0, "starter/") 
 
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
