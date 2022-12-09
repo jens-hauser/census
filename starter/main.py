@@ -37,13 +37,19 @@ class PredictionOut(BaseModel):
 
 @app.get("/")
 def welcome():
-    return {"message:": "Welcome!"}
+    return {"message": "Welcome!"}
 
 @app.post("/predict", response_model=PredictionOut)
-def model_predict(df: InputClass):
-    df = pd.DataFrame.from_dict(df)
+def model_predict(data: InputClass):
 
+    data_dict = data.dict()
+    df = pd.DataFrame([data_dict], columns=data_dict.keys())
+    df.columns = [col.replace("_", "-") for col in df.columns]
+
+    df.to_csv("data/pred.csv")
     model = joblib.load('model/random_forest_clf.joblib')
+    encoder = joblib.load('model/encoder.joblib')
+    lb = joblib.load('model/label_binarizer.joblib')
     cat_features = [
     "workclass",
     "education",
@@ -57,7 +63,7 @@ def model_predict(df: InputClass):
     X, _, _, _ = process_data(df,
                             categorical_features=cat_features,
                             training=False,
-                            encoder=model.encoder,
-                            lb=model.binarizer)
-    y_preds = model.predict(X)
-    return {'pred': y_preds}
+                            encoder=encoder,
+                            lb=lb)
+    y_pred = model.predict(X)
+    return {'pred': y_pred}
