@@ -4,9 +4,10 @@ import pandas as pd
 import joblib
 from fastapi import FastAPI
 from pydantic import BaseModel
-from starter.ml.data import process_data
+import sys
+sys.path.insert(0, "starter/starter")
 
-sys.path.insert(0, "starter/") 
+from ml.data import process_data
 
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
