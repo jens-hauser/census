@@ -31,6 +31,25 @@ class InputClass(BaseModel):
     hours_per_week: int
     native_country: str
 
+    class Config:
+        schema_extra = {
+            "example": {'age': 21,
+                        'workclass': 'Private',
+                        'fnlgt': 164190,
+                        'education': 'HS-grad',
+                        'education_num': 9,
+                        'marital_status': 'Never-married',
+                        'occupation': 'Prof-specialty',
+                        'relationship': 'Not-in-family',
+                        'race': 'Black',
+                        'sex': 'Female',
+                        'capital_gain': 0,
+                        'capital_loss': 0,
+                        'hours_per_week': 40,
+                        'native_country': 'United-States'
+                        }
+        }
+
 class PredictionOut(BaseModel):
     pred: int
 
