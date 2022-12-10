@@ -45,6 +45,19 @@ def compute_model_metrics(y, preds):
     return precision, recall, fbeta
 
 
+def performance_on_slices(model, data, categorical_features, encoder, lb, label="salary"):
+    """
+    Computes performance metrics on slices of the data for categorical features
+    """
+    slices = {}
+    for feature in categorical_features:
+        for value in data[feature].unique():
+            X_slice, y_slice, _, _ = process_data(data[data[feature] == value], categorical_features, label=label, training=False, encoder=encoder, lb=lb)
+            y_pred = inference(model, X_slice)
+            slices[feature + '_' + value] = compute_model_metrics(y_slice, y_pred)
+
+    return slices
+
 def inference(model, X):
     """ Run model inferences and return the predictions.
 
