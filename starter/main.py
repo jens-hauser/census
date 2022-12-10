@@ -9,13 +9,6 @@ sys.path.insert(0, "starter/starter")
 
 from ml.data import process_data
 
-if "DYNO" in os.environ and os.path.isdir(".dvc"):
-    os.system("dvc config core.no_scm true")
-    if os.system("dvc pull") != 0:
-        exit("dvc pull failed")
-    os.system("rm -r .dvc .apt/usr/lib/dvc")
-
-
 app = FastAPI()
 
 model = joblib.load('./starter/model/random_forest_clf.joblib')
